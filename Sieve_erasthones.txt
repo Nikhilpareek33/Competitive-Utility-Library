@@ -1,0 +1,24 @@
+// remember to remove/change N due to mutiple declarations
+// SEIVE IMPLEMENTSTION
+
+const int N=1e5; 
+
+bool is_prime[N+1];
+
+void sieve()
+{
+	fr(i,N+1) is_prime[i]=1;
+	
+	is_prime[0]=is_prime[1]=0;
+	
+	for(ll i=2;i*i<=N;i++)
+	{
+		if(is_prime[i])
+		{
+			for(ll j=i*i;j<=N;j+=i)
+			{
+				is_prime[j]=0;
+			}
+		}
+	}
+}

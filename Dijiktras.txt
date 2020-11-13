@@ -1,0 +1,29 @@
+// Dijiktras Algo
+
+void dij(ll st,vll &d)
+{
+	set<pll> s;
+	d[st]=0;
+	s.insert({d[st],st});
+	
+	wh(!s.empty())
+	{
+		ll v=(s.begin())->ss;
+		
+		s.erase(s.begin());
+		
+		for(auto u:g[v])
+		{
+			ll to=u.ff;
+			ll cost=u.ss;
+			
+			if(d[to]>d[v]+cost)
+			{
+				s.erase({d[to],to});
+				d[to]=d[v]+cost;
+				s.insert({d[to],to});
+			}
+		}
+	}
+	
+}

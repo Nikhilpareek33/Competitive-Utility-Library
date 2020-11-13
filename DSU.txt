@@ -1,0 +1,38 @@
+// implement DSU  and union by size
+
+// make set
+
+void make_set(ll v,vll &p,vll &size)
+{
+	p[v]=v;
+	size[v]=1;
+}
+
+// find
+ll find_set(ll v,vll &p)
+{
+	if(p[v]==v)
+	{
+		return v;
+	}
+	
+	return p[v]=find_set(p[v],p);
+}
+
+// union
+void union_set(ll a,ll b,vll &p,vll &size)
+{
+	a=find_set(a,p);
+	b=find_set(b,p);
+	
+	if(a!=b)
+	{
+		if(size[a]<size[b])
+		{
+			swap(a,b);
+		}
+		
+		p[b]=a;
+		size[a]+=size[b];
+	}
+}

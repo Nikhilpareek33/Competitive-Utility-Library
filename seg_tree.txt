@@ -1,0 +1,55 @@
+void build(vll &segtree,ll tl,ll tr,ll cn,vll a)
+{
+//      cout<<"entered"<<endl;
+        if(tl==tr)
+        {
+                segtree[cn]=a[tl];
+                return;
+        }
+        ll m= tl+(tr-tl)/2;
+       
+        build(segtree,tl,m,2*cn,a);
+        build(segtree,m+1,tr,2*cn+1,a);
+       
+        segtree[cn]=segtree[2*cn]+segtree[2*cn+1];
+//      cout<<cn<<" "<<segtree[cn]<<endl;
+}
+ 
+ll sum(ll cp,vll &segtree,ll tl,ll tr,ll l,ll r)
+{
+        if(l>r)
+        {
+                return 0;
+        }
+        if(tl==l&&tr==r)
+        {
+                return segtree[cp];
+        }
+       
+        ll m=tl+(tr-tl)/2;
+       
+        return sum(2*cp,segtree,tl,m,l,min(r,m)) +
+        sum(2*cp+1,segtree,m+1,tr,max(m+1,l),r);
+}
+ 
+void update(ll cp,vll &segtree ,ll tl,ll tr,ll pos,ll k)
+{
+        if(tl==tr)
+        {
+                segtree[cp]=k;
+                return;
+        }
+       
+        ll m=tl+(tr-tl)/2;
+       
+        if(pos<=m)
+        {
+                update(2*cp,segtree,tl,m,pos,k);
+        }
+       
+        else
+        {
+                update(2*cp+1,segtree,m+1,tr,pos,k);
+        }
+        segtree[cp]=segtree[2*cp]+segtree[2*cp+1];
+}
