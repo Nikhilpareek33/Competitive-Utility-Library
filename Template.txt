@@ -28,15 +28,22 @@ using namespace std;
 #define fr(i, n)                for(ll i=0; i<n;++i)
 #define fr1(i, n)               for(ll i=1; i<=n; ++i)
 #define rfr(i, n)               for(ll i=n-1; i>=0; --i)
+#define frc(i,a,b)				for(ll i=a;i<b;i++)
 #define precise(x)              cout<<fixed<<setprecision(x)
 #define wh                      while
 #define mp                      make_pair
 #define le                      length()
 #define endl                    "\n"
-#define sf                       scanf    
-#define pq						priority_queue				
+#define sf                      scanf    
+#define pq                      priority_queue                
+#define RemoveDuplicates(a)     a.resize(unique(all(a))-a.begin())
+#define debug(x) 				cerr<<"["<<#x<<": "<<x<<"] "
  
 const ll M=1e9+7; 
+
+// for ( 1/(a^n) ) %m  [ MODULAR INVERSE ]
+// modpow(modpow(a,n,mod),mod-2,mod)%mod)
+
  
 ll gcd(ll x,ll y){return y?gcd(y,x%y):x;}
  
@@ -91,3 +98,26 @@ long long power(long long a, long long b) {
         return res * res;
 }
  
+///////////// TEMPLATE END ///////////////////////////////////////////////////
+
+void solve()
+{
+ 
+}
+
+int main()
+{
+    fastio
+ 	
+    int t;
+    cin>>t;
+    
+    fr1(i,t)
+    {
+        
+//        cout<<"Case #"<<i<<": ";
+        solve();
+    }
+   
+    return 0;
+}
