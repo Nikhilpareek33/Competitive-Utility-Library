@@ -1,4 +1,4 @@
-// Template for MOdular Questions
+// Template for MOdular Arithmetic
 
 template<typename T>
 T bpow(T x, size_t n) {
