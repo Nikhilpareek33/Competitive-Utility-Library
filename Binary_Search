@@ -1,0 +1,25 @@
+void bs()
+{
+  ll l=0;
+	ll r=1e12+101; // in array n-1 (it can be answer)
+	
+	wh(l<=r)
+	{
+		ll mid=(r-l)/2 + l; // to prevent overflow
+		
+		
+		
+		if(...) // condition for moving right
+		{
+			
+			l=mid+1;
+		}
+		
+		else // for moving left
+		{
+			r=mid-1;
+		}
+		
+	}
+  
+}
