@@ -37,9 +37,8 @@ using namespace std;
 #define sf                      scanf    
 #define pq                      priority_queue                
 #define RemoveDuplicates(a)     a.resize(unique(all(a))-a.begin())
-#define debug(x) 				cerr<<"["<<#x<<": "<<x<<"] "
+#define pr(x) 				cerr<<"["<<#x<<": "<<x<<"] "
  
-const ll M=1e9+7; 
 
 // for ( 1/(a^n) ) %m  [ MODULAR INVERSE ]
 // modpow(modpow(a,n,mod),mod-2,mod)%mod)
