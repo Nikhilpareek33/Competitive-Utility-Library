@@ -28,7 +28,7 @@ using namespace std;
 #define fr(i, n)                for(ll i=0; i<n;++i)
 #define fr1(i, n)               for(ll i=1; i<=n; ++i)
 #define rfr(i, n)               for(ll i=n-1; i>=0; --i)
-#define frc(i,a,b)				for(ll i=a;i<b;i++)
+#define frc(i,a,b)				          for(ll i=a;i<b;i++)
 #define precise(x)              cout<<fixed<<setprecision(x)
 #define wh                      while
 #define mp                      make_pair
@@ -37,8 +37,9 @@ using namespace std;
 #define sf                      scanf    
 #define pq                      priority_queue                
 #define RemoveDuplicates(a)     a.resize(unique(all(a))-a.begin())
-#define pr(x) 				cerr<<"["<<#x<<": "<<x<<"] "
- 
+#define pr(x) 				              cerr<<"["<<#x<<": "<<x<<"] "
+#define pr2(x,y) 				           cerr<<"["<<#x<<" "<<#y<<": "<<x<<" "<<y<<"] "
+#define PI 						               3.14159265 
 
 // for ( 1/(a^n) ) %m  [ MODULAR INVERSE ]
 // modpow(modpow(a,n,mod),mod-2,mod)%mod)
