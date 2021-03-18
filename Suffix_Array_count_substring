@@ -1,0 +1,112 @@
+#include<bits/stdc++.h>
+using namespace std;
+using lli = long long;
+ 
+struct SuffixArray 
+{
+    const int L;
+    string s;
+    
+    // stores the order of sffixes at each step
+    vector<vector<int> > P;
+    
+    // stores the tuple 
+    vector<pair<pair<int,int>,int> > M;
+    
+  	SuffixArray(const string &s) : L(s.length()), s(s), P(1, vector<int>(L, 0)), M(L) 
+	{
+       if(s.length()==1)return;
+       
+       for (int i = 0; i < L; i++) P[0][i] = int(s[i]);
+       
+	  /*Use tuples that contain only some 
+	   characters of the string 
+	   (which we will group in powers of two) 
+	   such that we can sort the strings in 
+	   a more ordered fashion by their first 
+	   two characters,then we can improve on and 
+	   sort them by their first four characters 
+	   and so on.*/
+       for (int skip = 1, level = 1; skip < L; skip *= 2, level++) 
+	   {
+            P.push_back(vector<int>(L, 0));
+            
+            for (int i = 0; i < L; i++)
+            	M[i] = make_pair( make_pair(P[level-1][i], i + skip < L ? P[level-1][i + skip] : -1000), i);
+             
+			sort(M.begin(), M.end());
+			
+        	for (int i = 0; i < L; i++)
+            	P[level][M[i].second] = (i > 0 && M[i].first == M[i-1].first) ? P[level][M[i-1].second] : i;
+        }    
+     }
+    
+	// returns the suffix array 
+	vector<int> GetSuffixArray() { return P.back(); }
+
+// returns the length of the longest common prefix of s[i...L-1] and s[j...L-1]
+  int LCP(int i, int j) 
+  {
+    int len = 0;
+    if (i == j) return L - i;
+      
+	for (int k = P.size() - 1; k >= 0 && i < L && j < L; k--) 
+	{
+        if (P[k][i] == P[k][j]) 
+		{
+            i += 1 << k;
+            j += 1 << k;
+            len += 1 << k;
+      	}
+    }
+    
+    return len;
+  }
+};
+ 
+void solve(){
+	
+	// taking input
+  	string str;
+  
+  	cin>>str;
+  
+  	// constructor is called
+  	SuffixArray suffix(str);
+  
+  	vector<int> v = suffix.GetSuffixArray();
+  
+  	int sarr[str.length()];
+  
+  	for (int i = 0; i < v.size(); i++)
+  	sarr[v[i]] = i;// a is the suffix array.
+	
+	// n - sarr[i] will be the length of suffix 
+    // at ith position in suffix array initializing 
+    // count with length of first suffix of sorted 
+    // suffixes   
+	lli n=str.length();
+  	lli ans=0;
+  	for(int i=0;i<n;i++){
+    ans+=n-sarr[i];
+  	}
+  	
+  	for(int i=0;i<n-1;i++){
+    ans-=suffix.LCP(sarr[i],sarr[i+1]);
+  	}
+  	
+  	cout<<ans<<endl;
+}
+ 
+signed main(){
+  ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+  //freopen("in.txt","r",stdin);//freopen("out.txt","w",stdout);
+  
+  int t=1;
+  for(int i=1;i<=t;i++)
+  {
+    //cout<<"Case #"<<i<<": ";
+    solve();
+  }
+  
+}
