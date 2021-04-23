@@ -1,0 +1,144 @@
+/// 10505 - Montesco vs Capuleto
+
+const int N = 1e5+1;
+vll g[N];
+
+vll vis(N,0);
+vll color(N,-1);
+ll count1,count0;
+bool flaw =0;
+
+void init()
+{
+	fr(i,N) g[i].clear();
+	
+
+	
+	fr(i,N)
+	{
+		vis[i]=0;
+		color[i]=-1;
+	}
+	
+	count1=0;
+	count0=0;
+}
+
+//////////////////////////////////////////////////////////////// START /////////////////////////////////////////////////////////////////////////////////////
+
+
+
+void dfs(ll cur,ll c)
+{
+	
+	if(flaw || (color[cur]!=-1 && color[cur] != c) )
+	{
+		flaw =1;
+	}
+	
+	vis[cur]=1;
+	
+
+	color[cur]=c;
+	
+	if(c==1) count1++;
+	
+	else count0++;
+	
+	for(auto u: g[cur])
+	{
+		if(!vis[u])
+		dfs(u,c^1);
+		
+		else
+		{
+			if(color[u] != c^1)
+			{
+				flaw =1;
+				
+			}
+		}
+	}
+	return;
+}
+
+
+
+
+//////////////////////////////////////////////////////////////// END ///////////////////////////////////////////////////////////////////////////////////////////////
+void solve()
+{	
+	ll n;
+	cin>>n;
+	
+	fr1(i,n)
+	{
+		ll l;
+		cin>>l;
+		
+		fr(j,l)
+		{
+			ll u;
+			cin>>u;
+			
+			if(u>n) continue;
+			
+			g[i].pb(u);
+			g[u].pb(i);
+		}
+	}
+	
+//	cout<<endl;
+	
+	ll ans=0;
+	
+	fr1(i,n)
+	{
+		if(!vis[i])
+		{
+//			pr(i)<<endl;
+			count1=0;
+			count0=0;
+			flaw =0;
+			dfs(i,1);
+			
+			if(!flaw)
+			{
+//				pr2(count1,count0)<<endl;
+				ans += max(count1,count0);
+			}
+		}
+		
+	}
+	
+	cout<<ans<<endl;
+	
+	
+}
+
+
+
+int main()
+{
+//	#ifndef LOCAL
+//		freopen("input.txt","r",stdin);
+//	#endif
+  	
+    fastio
+	
+   	
+    int t;
+    cin>>t;
+    
+    
+    fr1(i,t)
+    {
+    	
+//        cout<<"Case #"<<i<<": ";
+	 	init();
+		solve();
+    }
+ 
+   
+    return 0;
+}
