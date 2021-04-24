@@ -1,1 +1,153 @@
+// Tested on - 315 - Network
 
+
+
+const int N = 101;
+ll n;
+vll g[N];
+
+
+///////////////////////////////////////////////////////////////////////// START //////////////////////////////////////////////////////////////////////
+ll dfs_count,dfs_root,root_children;
+vll dfs_num(N,0);
+vll dfs_low(N,0);
+vll dfs_par(N,0);
+vb ap(N,0);
+
+// modify accordingly
+void init()
+{
+	dfs_count=0;
+	
+	fr(i,N)
+	{
+		g[i].clear();
+		dfs_low[i]=0;
+		dfs_num[i]=-1;
+		ap[i]=0;
+	}
+}
+
+// Articulation point and bridges
+void dfs(ll cur)
+{
+	dfs_low[cur] = dfs_count;
+	dfs_num[cur] = dfs_count;
+	dfs_count++;
+	
+//	pr(cur);pr2(dfs_low[cur],dfs_num[cur])<<endl;
+	for(auto u: g[cur])
+	{
+		if(dfs_num[u] == -1)
+		{
+			dfs_par[u] = cur;
+			
+			if(cur == dfs_root)
+			{
+				root_children ++;
+			}
+			
+			dfs(u);
+			
+			// for articulation point
+			if(dfs_low[u] >= dfs_num[cur])
+			{
+				ap[cur] =1;
+			}
+			
+			// for articulation bridges
+			if(dfs_low[u] > dfs_num[cur])
+			{
+				// this edge is bridge
+				// we can cout here if required
+			}
+			
+//			pr2(u,cur);pr2(dfs_low[u],dfs[cur]);
+			dfs_low[cur] = min(dfs_low[u],dfs_low[cur]);
+		}
+		
+		// back edge is present no direct cycle
+		else if(u != dfs_par[cur])
+		{
+			dfs_low[cur] =min(dfs_low[cur], dfs_num[u]);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////// END ///////////////////////////////////////////////////////////////////////
+
+void solve()
+{	
+
+	
+	fr1(i,n)
+	{
+		if(dfs_num[i] == -1)
+		{
+			dfs_root =i;
+			root_children =0;
+			
+			dfs(i);
+			
+			// if root has more than one child
+			ap[i] = (root_children > 1);
+		}
+	}
+	
+	ll ans =0;
+	
+	fr1(i,n)
+	{
+//		pr2(i,ap[i]);pr2(dfs_num[i],dfs_low[i])<<endl;
+		if(ap[i]) ans++;
+	}
+	
+	cout<<ans<<endl;
+	
+	
+}
+
+
+
+int main()
+{
+//	#ifndef LOCAL
+//		freopen("input.txt","r",stdin);
+//	#endif
+  	
+    fastio
+	
+	while(cin>>n)
+	{
+		
+		if(n==0)
+		{
+			break;
+		}
+		
+		init();
+		string s;
+		
+		while(getline(cin,s) , s!="0")
+		{
+			stringstream ss(s);
+			
+			ll u,v;
+			
+			ss >> u;
+			
+			while(ss >>v)
+			{
+				g[u].pb(v);
+				g[v].pb(u);
+			}
+		}
+		
+		solve();
+		
+	}
+   	
+ 
+   
+    return 0;
+}
