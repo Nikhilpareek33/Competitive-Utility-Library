@@ -1,0 +1,183 @@
+// Tested On : 247 - Calling Circles
+ 
+
+const int N = 26;
+
+ll n,m;
+
+vll g[N];
+vb vis(N);
+
+vll dfs_low(N,0),dfs_num(N,-1),s;
+ll dfs_counter=0;
+
+map<string,ll> pr;
+map<ll,string> rev;
+
+
+void init()
+{
+	dfs_counter =0;
+	rev.clear();
+	pr.clear();
+	
+	fr(i,N)
+	{
+		dfs_low[i]=0;
+		dfs_num[i] = -1;
+		g[i].clear();
+		vis[i]=0;
+	}
+}
+
+////////////////////////////////////////////////////////////// START ///////////////////////////////////////////////////////////////////////////
+
+// Tarjan's Algo for SCC
+void dfs(ll cur)
+{
+	dfs_low[cur] = dfs_counter; 
+	dfs_num[cur] = dfs_counter;
+	dfs_counter++;
+	
+	vis[cur] =1 ;
+	s.pb(cur);
+	
+	
+	for(auto u:g[cur])
+	{
+		// not visited
+		if(dfs_num[u]==-1)
+		{
+			dfs(u);
+		}
+		
+		// already visited then update
+		if(vis[u])
+		{
+			dfs_low[cur] = min(dfs_low[cur] , dfs_low[u] );
+		}
+		
+	}
+	
+	if(dfs_low[cur] == dfs_num[cur]) /// if this is root of SCC
+	{
+//		for(auto t:s)
+//		{
+//			pr(rev[t])<<endl;
+//		}
+		
+		wh(1)
+		{
+			ll v = s.back();
+			s.pop_back();
+			vis[v]=0;
+			
+			cout<<rev[v];
+			if(cur==v)
+			{
+				break;	
+			}	
+			
+			else
+			{
+				cout<<", ";
+			}
+		}
+		
+		cout<<endl;
+				
+	}
+	
+	
+}
+
+void solve()
+{	
+	
+	fr1(i,n)
+	{
+		dfs_counter = 0;
+		
+		if(dfs_num[i] == -1)
+		{
+			dfs(i);
+		}
+	}
+	
+
+	
+}
+
+///////////////////////////////////////////////////////////// END   ////////////////////////////////////////////////////////
+
+int main()
+{
+//	#ifndef LOCAL
+//		freopen("input.txt","r",stdin);
+//	#endif
+  	
+    fastio
+		
+	ll t =1;
+	while(cin>>n>>m)
+	{
+		if(n==0 && m==0) break;
+		
+		ll in =1;
+	
+		
+		fr(i,m)
+		{
+			string s1,s2;
+			cin>>s1>>s2;
+			
+			if(pr.find(s1) == pr.end())
+			{
+				pr[s1] = in;
+				rev[in] = s1;
+				in++;
+			}
+			
+			if(pr.find(s2) == pr.end())
+			{
+				pr[s2] = in;
+				rev[in] = s2;
+				in++;
+			}
+			
+			
+			ll u,v;
+			
+			u = pr[s1];
+			v = pr[s2];
+			
+			g[u].pb(v);
+			
+		}
+		
+		if(t!=1) cout<<endl;
+		cout<<"Calling circles for data set "<<t<<":"<<endl;
+		t++;
+		solve();
+		
+	
+		
+		init();
+	}
+	
+   	
+//    int t;
+//    cin>>t;
+//    
+//    
+//    fr1(i,t)
+//    {
+//    	
+//        cout<<"Case #"<<i<<": ";
+//	 
+//		solve();
+//    }
+ 
+   
+    return 0;
+}
