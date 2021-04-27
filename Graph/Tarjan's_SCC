@@ -3,16 +3,22 @@
 
 const int N = 26;
 
+map<string,ll> pr;
+map<ll,string> rev;
+
 ll n,m;
 
 vll g[N];
+
+
+
+/////// Var used  ///////
 vb vis(N);
 
 vll dfs_low(N,0),dfs_num(N,-1),s;
 ll dfs_counter=0;
+/////// END ///////
 
-map<string,ll> pr;
-map<ll,string> rev;
 
 
 void init()
@@ -72,19 +78,14 @@ void dfs(ll cur)
 			s.pop_back();
 			vis[v]=0;
 			
-			cout<<rev[v];
-			if(cur==v)
-			{
-				break;	
-			}	
+			// for printing
+			// cout<<rev[v];
 			
-			else
-			{
-				cout<<", ";
-			}
+			if(cur==v) break;		
+			
 		}
 		
-		cout<<endl;
+		// cout<<endl;
 				
 	}
 	
