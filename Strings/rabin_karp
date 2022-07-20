@@ -1,0 +1,61 @@
+// 0-based indexing is used
+class rabin_karp
+{
+public:
+    const int p = 31;
+    const int m = 1e9 + 9;
+    long long N = 0;
+
+    vector<long long> p_pow;
+
+    rabin_karp(long long N)
+    {
+        this -> N = N;
+        this -> p_pow.resize(N + 1);
+        calc_powers(N);
+    }
+
+    void calc_powers(long long N)
+    {
+        p_pow[0] = 1;
+
+        for (int i = 1; i < (int)p_pow.size(); i++)
+            p_pow[i] = (p_pow[i - 1] * p) % m;
+    }
+
+    long long calc_hash(string const& s) {
+
+        int S = s.size();
+        long long h_s = 0;
+
+        for (int i = 0; i < S; i++)
+            h_s = (h_s + (s[i] - 'a' + 1) * p_pow[i]) % m;
+
+        return h_s;
+
+    }
+
+    vector<long long> calc_pre_hash(string const &t)
+    {
+        int T = t.size();
+        vector<long long> h(T + 1, 0);
+
+        for (int i = 0; i < T; i++)
+            h[i] = (h[i] + (t[i] - 'a' + 1) * p_pow[i]) % m;
+    }
+
+    bool check_substring(ll i , ll j , ll hash_patt, vector<long long> h_pre)
+    {
+        long long hash_diff = (h_pre[j] + m - h_pre[i]) % m;
+
+        // condition for matching 
+        if (hash_diff == (hash_patt * p_pow[i]) % m )
+        {
+            // string can also be cheked in case of matching hashes
+            return true;
+        }
+
+        return false;
+    }
+
+};
