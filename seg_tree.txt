@@ -1,3 +1,89 @@
+// not checked properly
+// 0-based indexing is used
+// 1-based for tree
+// https://leetcode.com/problems/range-sum-query-immutable/
+class seg_tree {
+
+public:
+    vll tree;
+    ll n;
+
+    seg_tree(ll n = 0)
+    {
+        this->tree.resize(4 * n + 1);
+        this->n = n;
+    }
+
+    void build(ll in , ll l , ll r, vll &a)
+    {
+        // one element
+        if (l == r)
+        {
+            this->tree[in] = a[l];
+            return;
+        }
+
+        ll mid = (r - l) / 2 + l;
+
+        build(2 * in , l, mid , a);
+        build(2 * in + 1, mid + 1 , r , a);
+
+        // do req operations
+        tree[in] = tree[2 * in] + tree[2 * in + 1];
+
+        return;
+    }
+
+    ll get_sum(ll l , ll r, ll in, ll ql , ll qr)
+    {
+        // not in this node
+        if (ql > qr) return 0LL;
+
+        // lies in the interval
+        if (ql == l && qr == r)
+        {
+            // pr2(in,tree[in]);
+            return this->tree[in];
+        }
+
+        ll mid = (r - l) / 2 + l;
+
+        ll ans = get_sum(l , mid,  2 * in , ql, min(mid , qr))
+                 + get_sum(mid + 1, r, 2 * in + 1 , max(mid + 1, ql) , qr );
+
+        return ans;
+
+    }
+
+    void update(int l , int r, int in, int val, int index)
+    {
+        if (index < l || index > r) return;
+
+        int mid = (r - l) / 2 + l;
+
+        // update the value of the position
+        if (l == r )
+        {
+            if (l == index)
+                this->tree[in] = val;
+
+            return;
+        }
+
+        update(l , mid , 2 * in , val , index);
+        update(mid + 1, r, 2 * in + 1 , val , index);
+
+        tree[in] = tree[2 * in] + tree[2 * in + 1];
+
+    }
+
+
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void build(vll &segtree,ll tl,ll tr,ll cn,vll a)
 {
 //      cout<<"entered"<<endl;
